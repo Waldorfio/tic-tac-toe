@@ -1,0 +1,27 @@
+#container {
+    display: grid;
+    grid-template-rows: 50px 200px 1fr;
+}
+    #player-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+        #player-one {
+            align-self: end;
+            justify-self: end;
+        }
+        #player-two {
+            align-self: end;
+            justify-self: start;
+        }
+    #grid-container {
+        /* justify-self: center; */
+        align-self: center;
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+    }
+    #round-container {
+        display: grid;
+        justify-self: center;
+    }
