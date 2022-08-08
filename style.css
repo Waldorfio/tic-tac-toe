@@ -1,27 +1,50 @@
 #container {
     display: grid;
+    gap: 20px;
     grid-template-rows: 50px 200px 1fr;
 }
     #player-container {
         display: grid;
+        gap: 20px;
         grid-template-columns: 1fr 1fr;
     }
         #player-one {
             align-self: end;
             justify-self: end;
+
+            border: 1px solid red;
+            border-radius: 15px;
         }
         #player-two {
             align-self: end;
             justify-self: start;
+
+            border: 1px solid red;
+            border-radius: 15px;
         }
-    #grid-container {
-        /* justify-self: center; */
-        align-self: center;
+    #middle-container {
         display: grid;
-        grid-template-rows: repeat(3, 1fr);
-        grid-template-columns: repeat(3, 1fr);
+
+        grid-template-columns: 1fr 250px 1fr;
     }
+        #grid-container {
+            grid-column: 2/3;
+            display: grid;
+            gap: 20px;
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr);
+        }
+            .grid {
+                text-align: center;
+
+                border: 1px solid red;
+                background-color: grey;
+                border-radius: 15px;
+            }
     #round-container {
         display: grid;
         justify-self: center;
+
+        border: 1px solid red;
+        border-radius: 15px;
     }
