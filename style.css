@@ -1,7 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+.round-text {
+    border: 1px solid red;
+    border-radius: 25px;
+    
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    
+    padding: 10px;
+}
+
 #container {
     display: grid;
     gap: 20px;
-    grid-template-rows: 50px 200px 1fr;
+    grid-template-rows: 100px 200px 1fr;
 }
     #player-container {
         display: grid;
@@ -11,16 +27,10 @@
         #player-one {
             align-self: end;
             justify-self: end;
-
-            border: 1px solid red;
-            border-radius: 15px;
         }
         #player-two {
             align-self: end;
             justify-self: start;
-
-            border: 1px solid red;
-            border-radius: 15px;
         }
     #middle-container {
         display: grid;
@@ -44,7 +54,4 @@
     #round-container {
         display: grid;
         justify-self: center;
-
-        border: 1px solid red;
-        border-radius: 15px;
     }
