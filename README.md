@@ -1,4 +1,5 @@
-# An interactive Tic-Tac-Toe Game built using Javascript, HTML and CSS.
+# Project: Web Based Tic-Tac-Toe
+An interactive Tic-Tac-Toe Game built using Javascript, HTML and CSS.
 
 Goal:
 - To practice javascript factory function and module usage, in an applicable web-based scenario.
