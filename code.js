@@ -35,7 +35,6 @@ function playerFactory(name, type, score, marker) {
             if (marked==5) {itsOver()}
             return arr
         },
-        
     };
 }
 
@@ -50,6 +49,31 @@ function itsOver() {
     marked = 0;
     pOneScore = document.getElementById('player-one');
     pOneScore.innerHTML = scoreOne + ' A';
+    checkWin()
+}
+
+function checkWin() {
+    // Extract square elements
+    sqOne = document.getElementById('sq-1').innerHTML;
+    sqTwo = document.getElementById('sq-2').innerHTML;
+    sqThree = document.getElementById('sq-3').innerHTML;
+    sqFour = document.getElementById('sq-4').innerHTML;
+    sqFive = document.getElementById('sq-5').innerHTML;
+    sqSix = document.getElementById('sq-6').innerHTML;
+    sqSeven = document.getElementById('sq-7').innerHTML;
+    sqEight = document.getElementById('sq-8').innerHTML;
+    sqNine = document.getElementById('sq-9').innerHTML;
+    // Check horizontal win
+    if (sqOne==sqTwo && sqTwo==sqThree ||
+        sqFour==sqFive && sqFive==sqSix ||
+        sqSeven==sqEight && sqEight==sqNine) {alert('winner')}
+    // Check vertical win
+    if (sqOne==sqFour && sqFour==sqSeven ||
+        sqTwo==sqFive && sqFive==sqEight ||
+        sqThree==sqSix && sqSix==sqNine) {alert('winner')}
+    // Check diagonal win
+    if (sqOne==sqFive && sqFive==sqNine ||
+        sqThree==sqFive && sqFive==sqSeven) {alert('winner')}
 }
 
 // Creating the Player objects
