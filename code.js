@@ -3,11 +3,12 @@ console.clear();
 let plays = 0;
 
 // The factory function to create the player object, and hold associated functions
-function playerFactory(name, type, score, marker) {
+function playerFactory(name, type, score, scoreAdded, marker) {
     return {
         name: name,
         type: type,
         score: score,
+        scoreAdded: scoreAdded,
         marker: marker,
         botAutoMark(grid) {
             botPlaced = false;
@@ -18,7 +19,6 @@ function playerFactory(name, type, score, marker) {
                     botPlaced = true;
                 }
             }
-            console.log('bot placed '+playerTwo.marker);
         },
         markGrid(grid,i) {
             if (grid.innerHTML != '') {console.log('nope!'); return};  // Check whether marker already placed or not
@@ -89,9 +89,25 @@ function checkWin() {
     }
 
     function updateScore(winningMarker) {
-        if (winningMarker==playerOne.marker) {gameBoard.winner=playerOne.name};
-        if (winningMarker==playerTwo.marker) {gameBoard.winner=playerTwo.name};
-        gameBoard.outcome = 'Wins!';
+        if (gameBoard.winner==playerOne.name && winningMarker==playerTwo.marker
+            || gameBoard.winner==playerTwo.name && winningMarker==playerOne.marker) {
+            gameBoard.winner = "It's a ";
+            gameBoard.outcome = 'Draw...';
+            console.log('its a draw');
+            return
+        }
+        if (winningMarker==playerOne.marker) {
+            gameBoard.winner = playerOne.name;
+            gameBoard.outcome = 'Wins!';
+            if (playerOne.scoreAdded==false) {playerOne.score = playerOne.score + 1};
+            playerOne.scoreAdded = true;
+        }
+        if (winningMarker==playerTwo.marker) {
+            gameBoard.winner = playerTwo.name;
+            gameBoard.outcome = 'Wins!';
+            if (playerTwo.scoreAdded==false) {playerTwo.score = playerTwo.score + 1};
+            playerTwo.scoreAdded = true;
+        }
         return
     }
     
@@ -112,14 +128,19 @@ function checkWin() {
     // Update Winner
     updateWinner(gameBoard.outcome, gameBoard.winner);
 
+    // Update the score on the display\
+    if (gameBoard.outcome!='Draw...') {
+        document.getElementById('player-one').innerHTML = 'Player One | ' + playerOne.score;
+        document.getElementById('player-two').innerHTML = 'Player Two | ' + playerTwo.score;
+    }
     // Make the outcome call
     overAlert = "It's over.\n" + gameBoard.winner + ' ' + gameBoard.outcome; 
     alert(overAlert);
 }
 
 // Creating the Player objects
-const playerOne = playerFactory('Player 1','human', 0,'x');
-const playerTwo = playerFactory('Player 2','bot', 0,'o');
+const playerOne = playerFactory('Player 1','human', 0, false, 'x');
+const playerTwo = playerFactory('Player 2','bot', 0, false, 'o');
 
 // Looping through and adding the eventListeners to the grid
 gridArr = document.getElementsByClassName('grid');
