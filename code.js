@@ -1,6 +1,7 @@
 console.clear();
 
 let plays = 0;
+let round = 1;
 
 // The factory function to create the player object, and hold associated functions
 function playerFactory(name, type, score, scoreAdded, marker) {
@@ -93,7 +94,6 @@ function checkWin() {
             || gameBoard.winner==playerTwo.name && winningMarker==playerOne.marker) {
             gameBoard.winner = "It's a ";
             gameBoard.outcome = 'Draw...';
-            console.log('its a draw');
             return
         }
         if (winningMarker==playerOne.marker) {
@@ -128,11 +128,15 @@ function checkWin() {
     // Update Winner
     updateWinner(gameBoard.outcome, gameBoard.winner);
 
-    // Update the score on the display\
+    // Update the display
     if (gameBoard.outcome!='Draw...') {
         document.getElementById('player-one').innerHTML = 'Player One | ' + playerOne.score;
         document.getElementById('player-two').innerHTML = 'Player Two | ' + playerTwo.score;
+        playerOne.scoreAdded = false;
+        playerTwo.scoreAdded = false;
     }
+    round = round + 1;
+    document.getElementById('round-container').innerHTML = 'Round ' + round;
     // Make the outcome call
     overAlert = "It's over.\n" + gameBoard.winner + ' ' + gameBoard.outcome; 
     alert(overAlert);
@@ -147,6 +151,16 @@ gridArr = document.getElementsByClassName('grid');
 for (i=0; i<(gridArr.length); i++) {
     grid = gridArr[i];
     grid.addEventListener('click', playerOne.markGrid.bind(this,grid,i));
+}
+
+// Add eventlistener to reset button
+reset = document.getElementById('reset-game');
+reset.addEventListener('click', () => resetGrid());
+function resetGrid() {
+    gridArr = document.getElementsByClassName('grid');
+    for (i=0; i<(gridArr.length); i++) {
+        gridArr[i].innerHTML = '';
+    }
 }
   
 console.log('-------')

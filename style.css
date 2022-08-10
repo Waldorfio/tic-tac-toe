@@ -55,3 +55,9 @@
         display: grid;
         justify-self: center;
     }
+    #control-container {
+        display: grid;
+    }
+        #reset-game {
+            justify-self: center;
+        }
