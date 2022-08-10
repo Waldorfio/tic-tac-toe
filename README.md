@@ -5,4 +5,4 @@ Goal:
 - To practice javascript factory function and module usage, in an applicable web-based scenario.
 
 Challenges Faced:
-- a
+- Forgetting syntax related to factory functions/object creation (i.e. commas to be placed after each object item)
