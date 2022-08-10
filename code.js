@@ -1,9 +1,6 @@
 console.clear();
 
-let arr = [0,1,2,3,4,5,6,7,8];
-let marked = 0;
-let scoreOne = 0;
-let scoreTwo = 0;
+let plays = 0;
 
 // The factory function to create the player object, and hold associated functions
 function playerFactory(name, type, score, marker) {
@@ -12,32 +9,27 @@ function playerFactory(name, type, score, marker) {
         type: type,
         score: score,
         marker: marker,
-        // botAutoMark1() {
-        //     for (i=0; i<(gridArr.length); i++) {
-        //         grid = gridArr[i];
-        //         if (grid.innerHTML == '') {
-        //             grid.innerHTML = 'o';
-        //             break;
-        //         }
-        //     }
-        // },
         botAutoMark(grid) {
-            grid.innerHTML = 'o';
-            console.log('bot placed o')
+            botPlaced = false;
+            while (botPlaced==false && plays!=4) {
+                randomIdx = randomiseNo();
+                if (gridArr[randomIdx].innerHTML=='') {
+                    gridArr[randomIdx].innerHTML = playerTwo.marker;
+                    botPlaced = true;
+                }
+            }
+            console.log('bot placed '+playerTwo.marker);
         },
         markGrid(grid,i) {
             if (grid.innerHTML != '') {console.log('nope!'); return};  // Check whether marker already placed or not
             if (grid.innerHTML == '') {grid.innerHTML = marker};  // Place the respective marker if empty
 
             // Placing the subsequent bot counter
-            arr.splice(i, 1); // Renove the current grid from the available array
-            idx = randomGridIdx(arr);
-            playerTwo.botAutoMark(gridArr[idx]);
-            arr.splice(idx, 1);
+            playerTwo.botAutoMark();
 
             // Checking whether the game is over
-            marked = marked + 1;
-            if (marked==5) {itsOver()}
+            plays = plays + 1;
+            if (plays==5) {itsOver()}
         },
     };
 }
@@ -50,14 +42,14 @@ function gameBoardFactory(outcome, winner) {
     }
 }
 
-function randomGridIdx(arr) {
-    let idx = arr[Math.floor(Math.random() * arr.length)];
-    return idx
+// Create a random number to help the easy bot place on the grid
+function randomiseNo() {
+    let randomidx = Math.floor(Math.random() * 9);
+    return randomidx
 }
 
 function itsOver() {
-    scoreOne = scoreOne + 1;
-    marked = 0;
+    plays = 0; // Reset the plays made
     checkWin();
 }
 
@@ -77,21 +69,26 @@ function updateWinner(outcome, winner) {
 }
 
 function checkWin() {
-    const gameBoard = gameBoardFactory("Draw...", "It's a");  // Defining default object
+    const gameBoard = gameBoardFactory("Nobody wins.", "");  // Defining default object
 
-    // Extract square elements
-    sqOne = document.getElementById('sq-1').innerHTML;
-    sqTwo = document.getElementById('sq-2').innerHTML;
-    sqThree = document.getElementById('sq-3').innerHTML;
-    sqFour = document.getElementById('sq-4').innerHTML;
-    sqFive = document.getElementById('sq-5').innerHTML;
-    sqSix = document.getElementById('sq-6').innerHTML;
-    sqSeven = document.getElementById('sq-7').innerHTML;
-    sqEight = document.getElementById('sq-8').innerHTML;
-    sqNine = document.getElementById('sq-9').innerHTML;
-    
+    // // Extract square elements
+    // sqOne = document.getElementById('sq-1').innerHTML;
+    // sqTwo = document.getElementById('sq-2').innerHTML;
+    // sqThree = document.getElementById('sq-3').innerHTML;
+    // sqFour = document.getElementById('sq-4').innerHTML;
+    // sqFive = document.getElementById('sq-5').innerHTML;
+    // sqSix = document.getElementById('sq-6').innerHTML;
+    // sqSeven = document.getElementById('sq-7').innerHTML;
+    // sqEight = document.getElementById('sq-8').innerHTML;
+    // sqNine = document.getElementById('sq-9').innerHTML;
+
+    // // Extract square elements (re-factored to reduce code)
+    square = [''];
+    for (j=1; j<10; j++) {
+        square[j] = document.getElementsByClassName('grid')[j-1].innerHTML;
+    }
+
     function updateScore(winningMarker) {
-        console.log('yes! it worked')
         if (winningMarker==playerOne.marker) {gameBoard.winner=playerOne.name};
         if (winningMarker==playerTwo.marker) {gameBoard.winner=playerTwo.name};
         gameBoard.outcome = 'Wins!';
@@ -99,18 +96,18 @@ function checkWin() {
     }
     
     // Check horizontal win
-    if (sqOne==sqTwo && sqTwo==sqThree) {updateScore(sqOne)}
-    if (sqFour==sqFive && sqFive==sqSix) {updateScore(sqFour)}
-    if (sqSeven==sqEight && sqEight==sqNine) {updateScore(sqSeven)}
+    if (square[1]==square[2] && square[2]==square[3]) {updateScore(square[1])}
+    if (square[4]==square[5] && square[5]==square[6]) {updateScore(square[4])}
+    if (square[7]==square[8] && square[8]==square[9]) {updateScore(square[7])}
 
     // Check vertical win
-    if (sqOne==sqFour && sqFour==sqSeven) {updateScore(sqOne)}
-    if (sqTwo==sqFive && sqFive==sqEight) {updateScore(sqTwo)}
-    if (sqThree==sqSix && sqSix==sqNine) {updateScore(sqThree)}
+    if (square[1]==square[4] && square[4]==square[7]) {updateScore(square[1])}
+    if (square[2]==square[5] && square[5]==square[8]) {updateScore(square[2])}
+    if (square[3]==square[6] && square[6]==square[9]) {updateScore(square[3])}
 
     // Check diagonal win
-    if (sqOne==sqFive && sqFive==sqNine) {updateScore(sqOne)}
-    if (sqThree==sqFive && sqFive==sqSeven) {updateScore(sqThree)}
+    if (square[1]==square[5] && square[5]==square[9]) {updateScore(square[1])}
+    if (square[3]==square[5] && square[5]==square[7]) {updateScore(square[3])}
 
     // Update Winner
     updateWinner(gameBoard.outcome, gameBoard.winner);
